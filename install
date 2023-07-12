@@ -14,7 +14,6 @@ create_directory() {
 
 DOTFILES_DIR=$(cd "$(dirname "$0")";pwd)
 CONFIG_HOME=$HOME/.config
-CACHE_HOME=$HOME/.cache
 
 # git
 create_symlink "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
@@ -31,7 +30,6 @@ create_symlink "$DOTFILES_DIR/tpm" "$HOME/.tmux/plugins/tpm"
 
 # vim
 create_symlink "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
-sh "$DOTFILES_DIR/dein.vim/bin/installer.sh" "$CACHE_HOME/dein" > /dev/null
 
 # fzf
 "$DOTFILES_DIR/fzf/install" --no-key-bindings --completion --no-update-rc --no-bash --no-fish > /dev/null
