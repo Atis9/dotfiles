@@ -1,5 +1,7 @@
 source "$HOME/.zplug/init.zsh"
 zplug "zsh-users/zsh-completions", as:plugin
+zplug "zsh-users/zsh-autosuggestions", as:plugin
+zplug "zsh-users/zsh-syntax-highlighting", as:plugin
 zplug "chitoku-k/fzf-zsh-completions", as:plugin
 zplug "docker/cli", as:plugin, depth:1, use:"contrib/completion/zsh"
 zplug "romkatv/powerlevel10k", as:theme, depth:1, use:"powerlevel10k.zsh-theme"
