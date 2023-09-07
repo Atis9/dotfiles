@@ -1,35 +1,48 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-create_symlink() {
-  if [ ! -L "$2" ]; then
-    ln -s "$1" "$2"
+create-symlink() {
+  local source=$1
+  local target=$2
+
+  if [[ -L "$target" ]]; then
+    unlink "$target"
   fi
+  if [[ -f "$target" ]]; then
+    echo "File exists: $target" >&2
+    return 1
+  fi
+
+  if [[ ! -d $(dirname -- "$target") ]]; then
+    mkdir -p -- "$(dirname -- "$target")"
+  fi
+
+  ln -s -- "$(cd "$(dirname -- "$source")" && pwd)/$(basename -- "$source")" "$target"
 }
 
-create_directory() {
-  if [ ! -e "$1" ]; then
-    mkdir -p "$1"
-  fi
+install-package() {
+  local home=$HOME
+  local xdgconfig=${XDG_CONFIG_HOME:-$HOME/.config}
+  local xdgdata=${XDG_DATA_HOME:-$HOME/.local/share}
+
+  # git
+  create-symlink ./config/git "$xdgconfig/git"
+  # zsh
+  create-symlink ./config/zsh/.zshenv "$home/.zshenv"
+  create-symlink ./config/zsh "$xdgconfig/zsh"
+  # antigen
+  rm -rf -- "$xdgdata/antigen"
+  git clone --depth 1 https://github.com/zsh-users/antigen "$xdgdata/antigen"
+  # vim
+  create-symlink ./config/vim "$home/.vim"
+  # tmux
+  create-symlink ./config/tmux "$xdgconfig/tmux"
+  # tpm
+  rm -rf -- "$xdgdata/tpm/plugins"
+  git clone --depth 1 https://github.com/tmux-plugins/tpm "$xdgdata/tpm/plugins"
+  # fzf
+  rm -rf -- "$xdgdata/antigen/bundles/junegunn/fzf"
+  git clone --depth 1 https://github.com/junegunn/fzf "$xdgdata/antigen/bundles/junegunn/fzf"
+  "$xdgdata"/antigen/bundles/junegunn/fzf/install --all --xdg --no-update-rc >/dev/null
 }
 
-DOTFILES_DIR=$(cd "$(dirname "$0")";pwd)
-CONFIG_HOME=$HOME/.config
-
-# git
-create_symlink "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
-
-# zsh/zprezto/zplug
-create_symlink "$DOTFILES_DIR/.zplug" "$HOME/.zplug"
-create_symlink "$DOTFILES_DIR/.zshenv" "$HOME/.zshenv"
-create_symlink "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
-
-# tmux
-create_symlink "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
-create_directory "$HOME/.tmux/plugins"
-create_symlink "$DOTFILES_DIR/tpm" "$HOME/.tmux/plugins/tpm"
-
-# vim
-create_symlink "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
-
-# fzf
-"$DOTFILES_DIR/fzf/install" --no-key-bindings --completion --no-update-rc --no-bash --no-fish > /dev/null
+install-package "$@"
