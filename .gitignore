@@ -1,0 +1,9 @@
+# Zsh
+config/zsh/.zcomp*
+config/zsh/*.zwc
+config/zsh/local/*
+!config/zsh/local/.gitkeep.zsh
+
+# tmux
+config/tmux/local/*
+!config/tmux/local/.gitkeep.conf
