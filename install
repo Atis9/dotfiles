@@ -36,6 +36,9 @@ install() {
   create-symlink ./config/vim "$home/.vim"
   # nvim
   create-symlink ./config/nvim "$xdgconfig/nvim"
+  # dein.vim
+  rm -rf -- "$xdgdata/dein/repos/github.com/Shougo/dein.vim"
+  git clone --depth 1 https://github.com/Shougo/dein.vim "$xdgdata/dein/repos/github.com/Shougo/dein.vim"
   # tmux
   create-symlink ./config/tmux "$xdgconfig/tmux"
   # tpm
