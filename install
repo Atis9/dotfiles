@@ -19,7 +19,7 @@ create-symlink() {
   ln -s -- "$(cd "$(dirname -- "$source")" && pwd)/$(basename -- "$source")" "$target"
 }
 
-install-package() {
+install() {
   local home=$HOME
   local xdgconfig=${XDG_CONFIG_HOME:-$HOME/.config}
   local xdgdata=${XDG_DATA_HOME:-$HOME/.local/share}
@@ -45,4 +45,4 @@ install-package() {
   "$xdgdata"/antigen/bundles/junegunn/fzf/install --all --xdg --no-update-rc >/dev/null
 }
 
-install-package "$@"
+install
