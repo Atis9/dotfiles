@@ -34,6 +34,8 @@ install() {
   git clone --depth 1 https://github.com/zsh-users/antigen "$xdgdata/antigen"
   # vim
   create-symlink ./config/vim "$home/.vim"
+  # nvim
+  create-symlink ./config/nvim "$xdgconfig/nvim"
   # tmux
   create-symlink ./config/tmux "$xdgconfig/tmux"
   # tpm
