@@ -1,0 +1,2 @@
+setopt nolistbeep
+
