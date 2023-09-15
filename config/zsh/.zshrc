@@ -1,3 +1,6 @@
+autoload -Uz compinit
+compinit
+
 if [[ -a $XDG_DATA_HOME/antigen ]]; then
     source $XDG_DATA_HOME/antigen/antigen.zsh
 
