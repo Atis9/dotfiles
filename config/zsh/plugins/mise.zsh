@@ -1,3 +1,3 @@
-if type mise >/dev/null 2>&1; then
+if (( $+commands[nvim] )); then
   eval "$(mise activate zsh)"
 fi
