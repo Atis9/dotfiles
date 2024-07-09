@@ -1,4 +1,2 @@
-export PATH="$HOME/.nodenv/bin:$PATH"
-if type nodenv >/dev/null 2>&1; then
-  eval "$(nodenv init -)"
-fi
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
