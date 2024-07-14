@@ -1,1 +1,0 @@
-runtime! plugins/*.vim
