@@ -26,6 +26,10 @@ vim.opt.smartcase = true
 vim.opt.incsearch = true
 vim.opt.wrapscan = true
 vim.opt.hlsearch = true
+vim.opt.termguicolors = true
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 vim.keymap.set("n", "<Esc><Esc>", ":nohlsearch<CR><Esc>")
 vim.keymap.set("n", "j", "gj")
