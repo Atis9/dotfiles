@@ -1,7 +1,5 @@
 require("config.lazy")
 
-vim.cmd("colorscheme nord")
-
 vim.opt.fenc = "utf-8"
 vim.opt.backup = false
 vim.opt.swapfile = false
@@ -26,16 +24,10 @@ vim.opt.smartcase = true
 vim.opt.incsearch = true
 vim.opt.wrapscan = true
 vim.opt.hlsearch = true
-vim.opt.termguicolors = true
 vim.opt.autoindent = true
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-
-if vim.fn.has('ttyout') == 1 then
-  vim.api.nvim_set_hl(0, 'Normal', {})
-  vim.api.nvim_set_hl(0, 'NormalNC', {})
-end
 
 vim.keymap.set("n", "<Esc><Esc>", ":nohlsearch<CR><Esc>")
 vim.keymap.set("n", "j", "gj")
