@@ -1,6 +1,6 @@
 require("config.lazy")
 
-vim.cmd("colorscheme nordfox")
+vim.cmd("colorscheme nord")
 
 vim.opt.fenc = "utf-8"
 vim.opt.backup = false
