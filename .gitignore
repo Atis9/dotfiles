@@ -10,3 +10,7 @@ config/zsh/local/*
 # tmux
 config/tmux/local/*
 !config/tmux/local/.gitkeep.conf
+
+# VS Code
+.vscode/
+
