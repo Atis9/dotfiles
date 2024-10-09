@@ -4,6 +4,7 @@ export EDITOR=$VISUAL
 alias ll='ls -lh'
 alias la='ls -lha'
 alias k='kubectl'
+alias dc='docker compose'
 
 if [ `uname` = "Darwin" ]; then
   alias ls='ls -G'
