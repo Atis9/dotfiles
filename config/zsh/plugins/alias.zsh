@@ -8,6 +8,7 @@ alias dc='docker compose'
 
 if [ `uname` = "Darwin" ]; then
   alias ls='ls -G'
+  alias reset-launchpad='defaults write com.apple.dock ResetLaunchPad -bool true; killall Dock'
 else
   alias ls='ls --color=auto'
 fi
