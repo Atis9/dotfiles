@@ -11,6 +11,9 @@ config/zsh/local/*
 config/tmux/local/*
 !config/tmux/local/.gitkeep.conf
 
+# vim
+config/vim/.netrwhist
+
 # VS Code
 .vscode/
 
