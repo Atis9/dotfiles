@@ -9,7 +9,6 @@ alias half2full='ruby -pe '\''$_.tr!("!-~", "！-～")'\'''
 
 if [[ $(uname) = 'Darwin' ]]; then
   alias ls='ls -G'
-  alias reset-launchpad='sudo find 2>/dev/null /private/var/folders/ -type d -name com.apple.dock.launchpad -exec rm -rf {} +; killall Dock'
 else
   alias ls='ls --color=auto'
 fi
