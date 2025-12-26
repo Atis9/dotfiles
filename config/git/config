@@ -1,7 +1,6 @@
 [user]
   email = atis@nyantech.com
   name = Atis
-  signingkey = 77B8D2575C21513C
 [color]
   ui = true
 [alias]
@@ -25,5 +24,3 @@
   lineNumber = true
 [fetch]
   prune = true
-[commit]
-  gpgsign = true
