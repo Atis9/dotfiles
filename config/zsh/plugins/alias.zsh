@@ -7,7 +7,7 @@ alias k='kubectl'
 alias dc='docker compose'
 alias half2full='ruby -pe '\''$_.tr!("!-~", "！-～")'\'''
 
-if [[ $(uname) = 'Darwin' ]]; then
+if [[ $OSTYPE == darwin* ]]; then
   alias ls='ls -G'
 else
   alias ls='ls --color=auto'
