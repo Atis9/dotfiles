@@ -1,3 +1,4 @@
-if [[ -a $XDG_CONFIG_HOME/fzf/fzf.zsh ]]; then
-  source $XDG_CONFIG_HOME/fzf/fzf.zsh
+# fzf は mise で入れる (01-mise.zsh より後に読む)
+if (( $+commands[fzf] )); then
+  source <(fzf --zsh)
 fi
