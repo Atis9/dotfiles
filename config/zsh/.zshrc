@@ -16,12 +16,18 @@ if [[ -r $XDG_DATA_HOME/antidote/antidote.zsh ]]; then
   if [[ ! $__zsh_plugins -nt $ZDOTDIR/zsh_plugins.txt ]]; then
     mkdir -p ${__zsh_plugins:h}
     rm -f $XDG_CACHE_HOME/zsh/zcompdump  # fpath が変わるので補完の dump も作り直す
+    # 失敗したときに壊れたファイルを残さないよう、成功したときだけ差し替える
     (
       source $XDG_DATA_HOME/antidote/antidote.zsh
-      antidote bundle <$ZDOTDIR/zsh_plugins.txt >|$__zsh_plugins
-    )
+      antidote bundle <$ZDOTDIR/zsh_plugins.txt >|$__zsh_plugins.tmp
+    ) && [[ -s $__zsh_plugins.tmp ]] && mv -f $__zsh_plugins.tmp $__zsh_plugins
+    rm -f $__zsh_plugins.tmp
   fi
+fi
+if [[ -r $__zsh_plugins ]]; then
   source $__zsh_plugins
+else
+  __compinit  # antidote が無くても補完だけは使えるようにする
 fi
 unset __zsh_plugins
 
