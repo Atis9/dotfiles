@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-* fzf >= 0.21.1
+* mise (fzf などは mise で入れる)
 * Zsh >= 5.1
 * jq >= 1.5
 * awk

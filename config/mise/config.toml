@@ -4,6 +4,7 @@ go = "latest"
 ruby = "latest"
 python = "latest"
 rust = "latest"
+fzf = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

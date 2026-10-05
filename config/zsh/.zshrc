@@ -3,23 +3,32 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# compinit は antigen に 1 回だけ -C で呼ばせる。
-# ANTIGEN_COMPINIT_OPTS は antigen の init.zsh に焼き込まれるので固定値にし、
-# 24 時間を超えた dump は消して次の compinit で作り直させる
-ANTIGEN_COMPDUMP=$XDG_CACHE_HOME/zsh/zcompdump
-ANTIGEN_COMPINIT_OPTS='-C'
-() {
-    setopt local_options extended_glob
-    [[ -n $ANTIGEN_COMPDUMP(#qN.mh+24) ]] && rm -f $ANTIGEN_COMPDUMP
-}
+# 自前の設定。ファイル名順に読むので、依存があるものは番号で順序を付ける
+for __f in $ZDOTDIR/{plugins,local}/*.zsh(N); do
+  source $__f
+done
+unset __f
 
-if [[ -a $XDG_DATA_HOME/antigen ]]; then
-    source $XDG_DATA_HOME/antigen/antigen.zsh
-
-    antigen bundle $ZDOTDIR/plugins
-    antigen bundle $ZDOTDIR/local
-    antigen bundles < $ZDOTDIR/bundles
-    [ -f $ZDOTDIR/.p10k.zsh ] && source $ZDOTDIR/.p10k.zsh
-    antigen theme romkatv/powerlevel10k
-    antigen apply
+# 外部プラグイン。zsh_plugins.txt が更新されたときだけ静的ファイルを作り直す
+ANTIDOTE_HOME=$XDG_CACHE_HOME/antidote
+__zsh_plugins=$XDG_CACHE_HOME/zsh/zsh_plugins.zsh
+if [[ -r $XDG_DATA_HOME/antidote/antidote.zsh ]]; then
+  if [[ ! $__zsh_plugins -nt $ZDOTDIR/zsh_plugins.txt ]]; then
+    mkdir -p ${__zsh_plugins:h}
+    rm -f $XDG_CACHE_HOME/zsh/zcompdump  # fpath が変わるので補完の dump も作り直す
+    # 失敗したときに壊れたファイルを残さないよう、成功したときだけ差し替える
+    (
+      source $XDG_DATA_HOME/antidote/antidote.zsh
+      antidote bundle <$ZDOTDIR/zsh_plugins.txt >|$__zsh_plugins.tmp
+    ) && [[ -s $__zsh_plugins.tmp ]] && mv -f $__zsh_plugins.tmp $__zsh_plugins
+    rm -f $__zsh_plugins.tmp
+  fi
 fi
+if [[ -r $__zsh_plugins ]]; then
+  source $__zsh_plugins
+else
+  __compinit  # antidote が無くても補完だけは使えるようにする
+fi
+unset __zsh_plugins
+
+[[ -f $ZDOTDIR/.p10k.zsh ]] && source $ZDOTDIR/.p10k.zsh
