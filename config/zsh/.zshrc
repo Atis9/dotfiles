@@ -3,13 +3,15 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# compinit は antigen に 1 回だけ呼ばせる。dump が 24 時間以内なら再生成チェックを省く (-C)
+# compinit は antigen に 1 回だけ -C で呼ばせる。
+# ANTIGEN_COMPINIT_OPTS は antigen の init.zsh に焼き込まれるので固定値にし、
+# 24 時間を超えた dump は消して次の compinit で作り直させる
 ANTIGEN_COMPDUMP=$XDG_CACHE_HOME/zsh/zcompdump
-if [[ -n $ANTIGEN_COMPDUMP(#qN.mh-24) ]]; then
-    ANTIGEN_COMPINIT_OPTS='-C'
-else
-    ANTIGEN_COMPINIT_OPTS='-i'
-fi
+ANTIGEN_COMPINIT_OPTS='-C'
+() {
+    setopt local_options extended_glob
+    [[ -n $ANTIGEN_COMPDUMP(#qN.mh+24) ]] && rm -f $ANTIGEN_COMPDUMP
+}
 
 if [[ -a $XDG_DATA_HOME/antigen ]]; then
     source $XDG_DATA_HOME/antigen/antigen.zsh
