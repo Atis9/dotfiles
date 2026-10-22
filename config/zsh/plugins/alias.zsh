@@ -13,9 +13,3 @@ else
   alias ls='ls --color=auto'
 fi
 
-if (( $+commands[nvim] )); then
-  export VISUAL='nvim'
-  export EDITOR=$VISUAL
-  alias vim=$VISUAL
-fi
-
