@@ -37,3 +37,13 @@ __generate_completion '_cargo' 'rustup cargo' rustup completions zsh cargo
 __generate_completion '_docker' 'docker' docker completion zsh
 __generate_completion '_kubectl' 'kubectl' kubectl completion zsh
 __generate_completion '_helm' 'helm' helm completion zsh
+
+# compinit は zsh_plugins.txt の pre: から、fzf-tab を読む直前に 1 回だけ呼ぶ。
+# dump が 24 時間以内なら再生成チェックを省く (-C)。古い dump は消して作り直させる
+__compinit() {
+    setopt local_options extended_glob
+    local dump=$XDG_CACHE_HOME/zsh/zcompdump
+    [[ -n $dump(#qN.mh+24) ]] && rm -f $dump
+    autoload -Uz compinit
+    compinit -C -d $dump
+}

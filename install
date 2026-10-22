@@ -29,9 +29,9 @@ install() {
   # zsh
   create-symlink ./config/zsh/.zshenv "$home/.zshenv"
   create-symlink ./config/zsh "$xdgconfig/zsh"
-  # antigen
-  rm -rf -- "$xdgdata/antigen"
-  git clone --depth 1 https://github.com/zsh-users/antigen "$xdgdata/antigen"
+  # antidote
+  rm -rf -- "$xdgdata/antidote"
+  git clone --depth 1 https://github.com/mattmc3/antidote "$xdgdata/antidote"
   # vim
   create-symlink ./config/vim "$home/.vim"
   # nvim
@@ -41,12 +41,11 @@ install() {
   # tpm
   rm -rf -- "$xdgdata/tpm/plugins"
   git clone --depth 1 https://github.com/tmux-plugins/tpm "$xdgdata/tpm/plugins"
-  # fzf
-  rm -rf -- "$xdgdata/antigen/bundles/junegunn/fzf"
-  git clone --depth 1 https://github.com/junegunn/fzf "$xdgdata/antigen/bundles/junegunn/fzf"
-  "$xdgdata"/antigen/bundles/junegunn/fzf/install --all --xdg --no-update-rc >/dev/null
-  # mise
+  # mise (fzf もここで入れる)
   create-symlink ./config/mise "$xdgconfig/mise"
+  if command -v mise >/dev/null; then
+    mise install
+  fi
 }
 
 install

@@ -1,0 +1,10 @@
+# compinit より前に fpath へ追加する
+zsh-users/zsh-completions path:src kind:fpath
+
+# fzf-tab は compinit の後、ウィジェットを包むプラグインより前に読む
+Aloxaf/fzf-tab pre:__compinit
+chitoku-k/fzf-zsh-completions
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting
+
+romkatv/powerlevel10k
