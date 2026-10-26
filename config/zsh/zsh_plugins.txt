@@ -3,7 +3,8 @@ zsh-users/zsh-completions path:src kind:fpath
 
 # fzf-tab は compinit の後、ウィジェットを包むプラグインより前に読む
 Aloxaf/fzf-tab pre:__compinit
-chitoku-k/fzf-zsh-completions
+# 読み込み時に fork が多く遅いので、プロンプト表示後に遅延読み込みする
+chitoku-k/fzf-zsh-completions kind:defer
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-syntax-highlighting
 
