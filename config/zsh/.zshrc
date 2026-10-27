@@ -1,3 +1,9 @@
+# LANG が未設定だと p10k が起動のたびに UTF-8 ロケールを探して遅くなる。
+# 非対話のスクリプトに影響させないよう .zshenv ではなくここで設定し、OS ごとに必ずあるロケールを使う
+if [[ -z $LANG ]]; then
+  [[ $OSTYPE == darwin* ]] && export LANG=en_US.UTF-8 || export LANG=C.UTF-8
+fi
+
 # Powerlevel10k instant prompt。コンソール入力を伴う処理はこれより上に書く
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -9,11 +15,14 @@ for __f in $ZDOTDIR/{plugins,local}/*.zsh(N); do
 done
 unset __f
 
-# 外部プラグイン。zsh_plugins.txt が更新されたときだけ静的ファイルを作り直す
+# 外部プラグイン。zsh_plugins.txt か .zshrc (下の zstyle) が更新されたときだけ静的ファイルを作り直す
 ANTIDOTE_HOME=$XDG_CACHE_HOME/antidote
+# fzf-zsh-completions は関数を定義するだけなので、遅延読み込みの後に precmd / chpwd フックを呼ばず、
+# エラーは見えるよう stderr を捨てない
+zstyle ':antidote:bundle:chitoku-k/fzf-zsh-completions' defer-options '-2dm'
 __zsh_plugins=$XDG_CACHE_HOME/zsh/zsh_plugins.zsh
 if [[ -r $XDG_DATA_HOME/antidote/antidote.zsh ]]; then
-  if [[ ! $__zsh_plugins -nt $ZDOTDIR/zsh_plugins.txt ]]; then
+  if [[ ! $__zsh_plugins -nt $ZDOTDIR/zsh_plugins.txt || ! $__zsh_plugins -nt $ZDOTDIR/.zshrc ]]; then
     mkdir -p ${__zsh_plugins:h}
     rm -f $XDG_CACHE_HOME/zsh/zcompdump  # fpath が変わるので補完の dump も作り直す
     # 失敗したときに壊れたファイルを残さないよう、成功したときだけ差し替える
